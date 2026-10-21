@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Цветочный магазин</title>
+</head>
+<body bgcolor="#fffafb" text="#333333">
+
+    <center>
+        <h1>🌸 Цветочный магазин 🌸</h1>
+    </center>
+
+    <hr>
+
+    <h3>Навигация по сайту</h3>
+    <ul>
+        <li><a href="#" onclick="showPage('home', this); return false;">🏠 Главная страница</a></li>
+        <li><a href="#" onclick="showPage('important', this); return false;">⭐️ Важная страница</a></li>
+        <li><a href="#" onclick="showPageAndScroll('important', 'hits', this); return false;">🌹 Хиты продаж</a></li>
+        <li><a href="#" onclick="showPage('table', this); return false;">📊 Таблица цветов</a></li>
+        <li><a href="#" onclick="showPage('forms', this); return false;">📝 Формы</a></li>
+        <li><a href="https://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F:%D0%94%D0%B5%D0%BA%D0%BE%D1%80%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B5_%D1%81%D0%B0%D0%B4%D0%BE%D0%B2%D1%8B%D0%B5_%D1%80%D0%B0%D1%81%D1%82%D0%B5%D0%BD%D0%B8%D1%8F" target="_blank">Pretty flowers WIKI</a></li>
+        <li>
+            <a href="https://school-science.ru/24/23/61165?ysclid=mv1ftelavw181623337" target="_blank">
+                <img src="./cart.jpg" width="100" height="100" alt="Научная статья о цветах">
+            </a>
+        </li>
+    </ul>
+
+    <hr>
+
+    <div id="content"></div>
+
+    <script>
+        var currentMarker = null;
+
+        var pages = {
+            home: `
+                <center>
+                    <h2>Рады Вас приветствовать!</h2>
+                    <p>Наша история началась в 2015 году с маленького уютного фургончика в центра города.</p>
+                    <p>Мы начинали с простых букетов, но благодаря вашей любви к цветам выросли в полноценную флористическую мастерскую.</p>
+                    <p>Сегодня мы — команда увлеченных флористов, которые просто не представляют свою жизнь без цветов.</p>
+                </center>
+            `,
+            important: `
+                <a id="top"></a>
+                <center><h1>Важная информация</h1></center>
+                <hr>
+                <h3 align="right">
+                    <a href="#care">Как ухаживать за букетом</a> |
+                    <a href="#hits">Хиты продаж</a> |
+                    <a href="#catalog">Каталог</a>
+                </h3>
+                <hr>
+
+                <h3 id="care" align="center">Как ухаживать за букетом</h3>
+                <p>Следуйте этим простым правилам, и ваши цветы будут радовать вас на неделю дольше:</p>
+                <ol>
+                    <li><b>Подготовьте вазу:</b> Тщательно вымойте её с мылом, чтобы убрать бактерии.</li>
+                    <li><b>Обрежьте стебли:</b> Сделайте косой срез острым ножом под струей воды.</li>
+                    <li><b>Удалите лишние листья:</b> Те листья, которые окажутся под водой, должны быть удалены, иначе вода быстро протухнет.</li>
+                    <li><b>Особенности ухода за разными цветами:</b>
+                        <ul>
+                            <li><b>Розы:</b> Любят прохладную воду. Добавьте в воду половину таблетки аспирина.</li>
+                            <li><b>Тюльпаны:</b> Им нужно совсем немного воды (буквально 5 см). Они продолжают расти в вазе!</li>
+                            <li><b>Хризантемы:</b> Самые стойкие. Просто меняйте воду раз в 2 дня.</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p><b>Посмотрите, как старательно ухаживают за цветами:</b></p>
+                <p align="left">
+                    <a href="./hold.jpg" target="_blank" title="Уход - исходный размер">
+                        <img src="./hold.jpg" width="100" height="100" alt="Уход">
+                    </a>
+                    &nbsp;
+                    <a href="./bonus.html" target="_blank" title="Уход увеличенный">
+                        <img src="./hholdjpg.jpg" width="100" height="100" alt="Уход">
+                    </a>
+                </p>
+                <p align="center">
+                    <a href="#top" style="text-decoration: none; color: #d63384; font-weight: bold;">⬆️ Вернуться к началу</a>
+                </p>
+                <hr>
+
+                <h3 id="hits" align="center">🌹 Хиты продаж 🌹</h3>
+                <p align="center">Нажмите на картинку, чтобы открыть фото в полном размере:</p>
+                <table border="1" align="center" cellpadding="10">
+                    <tr>
+                        <td align="center"><a href="./tumaa.jpg" target="_blank"><img src="./tumaa.jpg" width="100" height="100" alt="Тюльпаны"></a></td>
+                        <td align="center"><a href="./buket-lilii.jpg" target="_blank"><img src="./buket-lilii.jpg" width="100" height="100" alt="Лилии"></a></td>
+                        <td align="center"><a href="./gerber.jpg" target="_blank"><img src="./gerber.jpg" width="100" height="100" alt="Герберы"></a></td>
+                        <td align="center"><a href="./orx.jpg" target="_blank"><img src="./orx.jpg" width="100" height="100" alt="Орхидеи"></a></td>
+                        <td align="center"><a href="./gvozdik.jpg" target="_blank"><img src="./gvozdik.jpg" width="100" height="100" alt="Гвоздики"></a></td>
+                    </tr>
+                </table>
+
+                <p align="center">
+                    <a href="#top" style="text-decoration: none; color: #d63384; font-weight: bold;">⬆️ Вернуться к началу</a>
+                </p>
+                <hr>
+
+                <h3 id="catalog" align="center">🌷 Каталог 🌷</h3>
+                <p align="center">Здесь представлен наш основной ассортимент свежих цветов.</p>
+                <table border="1" align="center" cellpadding="10" width="100%">
+                    <tr valign="top">
+                        <td align="center" width="20%"><img src="./tumaa.jpg" height="200" alt="Тюльпаны"><p align="center"><b>Тюльпаны</b></p></td>
+                        <td align="center" width="20%"><img src="./buket-lilii.jpg" height="200" alt="Лилии"><p align="center"><b>Лилии</b></p></td>
+                        <td align="center" width="20%"><img src="./gerber.jpg" height="200" alt="Герберы"><p align="center"><b>Герберы</b></p></td>
+                        <td align="center" width="20%"><img src="./orx.jpg" height="200" alt="Орхидеи"><p align="center"><b>Орхидеи</b></p></td>
+                        <td align="center" width="20%"><img src="./gvozdik.jpg" height="200" alt="Гвоздики"><p align="center"><b>Гвоздики</b></p></td>
+                    </tr>
+                    <tr valign="top">
+                        <td align="center" width="20%"><img src="./emma.jpg" width="200" alt="Эустомы"><p align="center"><b>Эустомы</b></p></td>
+                        <td align="center" width="20%"><img src="./gart.jpg" width="200" alt="Гортензии"><p align="center"><b>Гортензии</b></p></td>
+                        <td align="center" width="20%"><img src="./arosejpg.jpg" width="200" alt="Розы алые"><p align="center"><b>Розы алые</b></p></td>
+                        <td align="center" width="20%"><img src="./brose.jpg" width="200" alt="Розы белые"><p align="center"><b>Розы белые</b></p></td>
+                        <td align="center" width="20%"><img src="./rrosejpg.jpg" width="200" alt="Розы розовые"><p align="center"><b>Розы розовые</b></p></td>
+                    </tr>
+                </table>
+
+                <p align="center">
+                    <a href="#top" style="text-decoration: none; color: #d63384; font-weight: bold;">⬆️ Вернуться к началу</a>
+                </p>
+            `,
+            table: `
+               <center><h2>Таблица цветов</h2></center>
+<br>
+
+<table border="2" bordercolor="red" cellpadding="10" cellspacing="0" width="800" align="center"
+       background="./lepa.jpg"
+       style="background-image: url('lepa.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+
+  <tr>
+    <th>Название цветка</th>
+    <th >Описание цветка</th>
+    <th >Фотография</th>
+    <th >Ссылка на Википедию</th>
+  </tr>
+
+  <tr>
+    <td align="center" style="background-color: rgba(255, 255, 255, 0.4);">Роза</td>
+    <td style="background-color: rgba(255, 255, 255, 0.4);">Королева цветов с нежными лепестками</td>
+    <td align="center" style="background-color: rgba(255, 255, 255, 0.4);">
+      <a href="roza_big.html" target="_blank" title="Открыть розы в большом размере">
+        <img src="raza1.jpg" width="100" height="100" alt="Роза" style="border: none;">
+      </a>
+    </td>
+    <td align="center" style="background-color: rgba(255, 255, 255, 0.4);">
+      <a href="https://ru.wikipedia.org/wiki/Роза" target="_blank">Открыть</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" style="background-color: rgba(255, 255, 255, 0.4);">Тюльпан</td>
+    <td style="background-color: rgba(255, 255, 255, 0.4);">Луковичный цветок с яркими бутонами</td>
+    <td align="center" style="background-color: rgba(255, 255, 255, 0.4);">
+      <img src="tul.jpg" width="100" height="100" alt="Тюльпан">
+    </td>
+    <td align="center" style="background-color: rgba(255, 255, 255, 0.4);">
+      <a href="https://ru.wikipedia.org/wiki/Тюльпан" target="_blank">Открыть</a>
+    </td>
+  </tr>
+
+</table>
+            `,
+            forms: `
+                <style>
+                    .forms-page { max-width: 600px; margin: 0 auto; }
+                    .forms-page fieldset { margin-bottom: 30px; padding: 15px; border: 2px solid red; }
+                    .forms-page legend { font-weight: bold; padding: 0 8px; }
+                    .forms-page p { margin: 10px 0; }
+                    .forms-page label.main { display: inline-block; width: 190px; }
+                </style>
+
+                <div class="forms-page">
+                    <center><h2>Формы</h2></center>
+
+                    <form action="https://www.bing.com/search" method="get">
+                        <fieldset>
+                            <legend>Контактные данные</legend>
+                            <p><label class="main" for="last_name">Фамилия:</label>
+                               <input type="text" id="last_name" name="last_name" value="Иванова" required></p>
+                            <p><label class="main" for="first_name">Имя:</label>
+                               <input type="text" id="first_name" name="first_name" value="Анна" required></p>
+                            <p><label class="main" for="group">Группа:</label>
+                               <input type="text" id="group" name="group" value="ИС-21" required></p>
+                            <p><label class="main" for="phone">Мобильный телефон:</label>
+                               <input type="tel" id="phone" name="phone" value="+7 900 123-45-67" required></p>
+                            <p><label class="main" for="email">Электронная почта:</label>
+                               <input type="email" id="email" name="email" value="anna.ivanova@example.com" required></p>
+                            <p><label class="main" for="message_date">Дата отправки:</label>
+                               <input type="date" id="message_date" name="message_date" value="2026-10-21" required></p>
+                            <input type="hidden" name="q" value="Контактные данные отправлены">
+                            <p><input type="submit" value="Отправить контактные данные"></p>
+                        </fieldset>
+                    </form>
+
+                    <form action="https://www.bing.com/search" method="get">
+                        <fieldset>
+                            <legend>Заказ в магазине цветов</legend>
+                            <p><label class="main" for="customer_name">Имя заказчика:</label>
+                               <input type="text" id="customer_name" name="customer_name" value="Анна Иванова"></p>
+                            <p><label class="main" for="flower_name">Название цветка:</label>
+                               <input type="text" id="flower_name" name="flower_name" value="Роза"></p>
+                            <p><label class="main" for="flower_quantity">Количество:</label>
+                               <input type="number" id="flower_quantity" name="flower_quantity" value="5" min="1" max="100"></p>
+                            <p><span style="display:inline-block; width:190px;">Способ получения:</span>
+                               <label><input type="radio" name="delivery_method" value="courier" checked> Курьер</label>
+                               <label><input type="radio" name="delivery_method" value="pickup"> Самовывоз</label></p>
+                            <p><span style="display:inline-block; width:190px;">Дополнительно:</span>
+                               <label><input type="checkbox" name="extra_gift_wrap" value="yes" checked> Подарочная упаковка</label>
+                               <label><input type="checkbox" name="extra_postcard" value="yes"> Открытка</label></p>
+                            <p><label class="main" for="delivery_date">Дата доставки:</label>
+                               <input type="date" id="delivery_date" name="delivery_date" value="2026-10-25"></p>
+                            <p><label class="main" for="order_password">Пароль для заказа:</label>
+                               <input type="password" id="order_password" name="order_password" value="flower2026"></p>
+                            <input type="hidden" name="shop_id" value="flower_shop_01">
+                            <input type="hidden" name="order_source" value="website">
+                            <input type="hidden" name="q" value="Заказ цветов отправлен">
+                            <p><input type="submit" value="Отправить заказ"></p>
+                        </fieldset>
+                    </form>
+                </div>
+            `
+        };
+
+        function showPage(pageName, linkElement) {
+            document.getElementById('content').innerHTML = pages[pageName];
+            if (currentMarker && currentMarker.parentNode) {
+                currentMarker.parentNode.removeChild(currentMarker);
+            }
+            currentMarker = document.createElement('b');
+            currentMarker.innerHTML = ' (Вы здесь)';
+            linkElement.parentNode.appendChild(currentMarker);
+
+            if (pageName === 'forms') {
+                document.getElementById('message_date').value = new Date().toISOString().slice(0, 10);
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        function showPageAndScroll(pageName, anchorId, linkElement) {
+            showPage(pageName, linkElement);
+            setTimeout(function() {
+                var anchor = document.getElementById(anchorId);
+                if (anchor) {
+                    anchor.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 50);
+        }
+
+        window.onload = function() {
+            var firstLink = document.querySelector('ul li a');
+            showPage('home', firstLink);
+        };
+    </script>
+
+</body>
+</html>

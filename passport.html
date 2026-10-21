@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Паспорт: DOM и JS</title>
+
+    <!-- Шрифт Inter (адреса исправлены: fonts.googleapis.com и fonts.gstatic.com) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    
+</head>
+<body>
+
+    <!-- ВНИМАНИЕ: в шапке и навигации нет тегов <p>, чтобы первые три <p> на странице
+         были Имя, Фамилия, Год рождения (как требует задание: getElementsByTagName('p')[2]) -->
+    <h3>Навигация по сайту</h3>
+    <ul>
+        <li><a href="#" onclick="showPage('dom', this); return false;">1. DOM_JS. Считываем информацию из DOM</a></li>
+        <li><a href="#" onclick="showPage('translit', this); return false;">2. Изменяем кириллицу на латиницу по клику</a></li>
+        <li><a href="#" onclick="showPage('task', this); return false;">3. Решение алгоритмической задачи</a></li>
+    </ul>
+
+    <hr>
+
+    <!-- Меняющийся контент -->
+    <div id="content"></div>
+
+    <script>
+        var pages = {
+            // ===== Страница 1: считываем информацию из DOM =====
+            dom: `
+                <div class="container">
+                    <h1>DOM_JS. Считываем информацию из DOM</h1>
+                    <p>Имя <span id="firstName">Анастасия</span></p>
+                    <p>Фамилия <span id="secondName">Богачева</span></p>
+                    <p>Год рождения <span id="db">2007</span></p>
+                    <p>Возраст <span id="age_id"> </span></p>
+                </div>
+
+                
+
+                <div class="hint">
+                    <b>Скриншот браузера:</b><br>
+                    <img src="heet.png" width="600">
+                </div>
+            `,
+
+            // ===== Страница 2: кириллица -> латиница по клику =====
+            translit: `
+                <div class="container">
+                    <h1>Изменяем кириллицу на латиницу по клику</h1>
+                    <p>Имя <span id="firstName">Анастасия</span></p>
+                    <p>Фамилия <span id="secondName">Богачева</span></p>
+                    <p>Год рождения <span id="db">2007</span></p>
+                    <p>Возраст <span id = "age_id"> </span></p>
+                </div>
+                <div id="for_click">Нажмите здесь, чтобы перевести на латиницу</div>
+            `,
+
+            // ===== Страница 3: решение алгоритмической задачи =====
+            task: `
+                <div class="container">
+                    <h1>Решение алгоритмической задачи</h1>
+                </div>
+
+                <form id="task_form" action="https://www.bing.com/search" method="get">
+                    <ul>
+                        <li>Для поисковика:
+                            <input type="text" name="q" size="50" value="размен суммы купюрами 500, 100, 10 и монетой 2 руб">
+                        </li>
+                        <li>Формулировка задачи<br>
+                            <textarea name="task" rows="4" cols="60" readonly>1006. Известна денежная сумма. Разменять её купюрами 500, 100, 10 и монетой 2 руб., если это возможно. Если разменять возможно - отправить все на сервер</textarea>
+                        </li>
+                        <li>Сумма (руб.): <input type="number" id="sum" name="sum" value="1236" min="1" step="1"></li>
+                        <li>Результат решения задачи:
+                            <input type="text" id="result" name="result" size="60" value="не определен" readonly>
+                        </li>
+                        <li>действие 1: <input type="button" id="check_btn" value="Проверить"></li>
+                        <li>действие 2: <input type="submit" value="Отправить"></li>
+                    </ul>
+                </form>
+            `
+        };
+
+        // Твои наработки: замена данных по событию клика
+        function translateToLatin() {
+            let firstName_node = document.getElementById('firstName');
+            console.log(firstName_node.innerText);
+            firstName_node.innerText = "Anastasia";
+            console.log(firstName_node.innerText);
+
+            let secondName_node = document.getElementById('secondName');
+            console.log(secondName_node.innerText);
+            secondName_node.innerText = "Bogacheva";
+            console.log(secondName_node.innerText);
+        }
+
+        // Размен суммы купюрами 500, 100, 10 и монетой 2 руб.
+        // Возвращает true, если разменять возможно (сумма чётная), иначе false
+        function checkSum() {
+            var sum = Number(document.getElementById('sum').value);
+            var resultNode = document.getElementById('result');
+
+            if (!Number.isInteger(sum) || sum <= 0) {
+                resultNode.value = 'введите целую сумму больше 0';
+                return false;
+            }
+            // все номиналы чётные, поэтому нечётную сумму разменять нельзя
+            if (sum % 2 !== 0) {
+                resultNode.value = 'разменять невозможно';
+                return false;
+            }
+
+            var n500 = Math.floor(sum / 500);
+            sum -= n500 * 500;
+            var n100 = Math.floor(sum / 100);
+            sum -= n100 * 100;
+            var n10 = Math.floor(sum / 10);
+            sum -= n10 * 10;
+            var n2 = sum / 2;
+
+            resultNode.value = '500 руб.: ' + n500 + ' шт.; 100 руб.: ' + n100 +
+                ' шт.; 10 руб.: ' + n10 + ' шт.; 2 руб.: ' + n2 + ' шт.';
+            return true;
+        }
+
+        function showPage(pageName, linkElement) {
+            document.getElementById('content').innerHTML = pages[pageName];
+
+            // возраст считаем автоматически по году рождения
+            var ageNode = document.getElementById('age_id');
+            var dbNode = document.getElementById('db');
+            if (ageNode && dbNode) {
+                ageNode.innerText = new Date().getFullYear() - Number(dbNode.innerText);
+            }
+
+            // обработчик клика только на странице 2
+            if (pageName === 'translit') {
+                document.getElementById('for_click').onclick = translateToLatin;
+            }
+
+            // обработчики только на странице 3
+            if (pageName === 'task') {
+                document.getElementById('check_btn').onclick = checkSum;
+                document.getElementById('task_form').onsubmit = function () {
+                    if (!checkSum()) {
+                        alert('Разменять сумму невозможно, на сервер ничего не отправляется.');
+                        return false;
+                    }
+                    return true;
+                };
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        window.onload = function() {
+            showPage('dom', document.querySelector('ul li a'));
+        };
+    </script>
+
+</body>
+</html>
